@@ -8,8 +8,8 @@ COPY go.mod ./
 COPY go.sum ./
 RUN go mod download
 
-COPY ./* ./
+COPY . ./
 
-RUN go build -v -o /url-shortener-backend
+RUN go build ./cmd -v -o /url-shortener-backend
 
 CMD ["/url-shortener-backend"]

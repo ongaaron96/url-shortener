@@ -1,4 +1,4 @@
-module url-shortener
+module github.com/ongaaron96/url-shortener/backend
 
 go 1.20
 
