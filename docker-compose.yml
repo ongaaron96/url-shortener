@@ -1,0 +1,12 @@
+version: '3'
+services:
+  url-shortener-frontend:
+    # image: url-shortener-frontend:latest
+    build: ./frontend
+    ports:
+      - 3000:3000
+  url-shortener-backend:
+    # image: url-shortener-backend:latest
+    build: ./backend
+    ports:
+      - 8081:8081

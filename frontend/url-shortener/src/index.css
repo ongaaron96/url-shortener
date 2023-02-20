@@ -1,4 +1,5 @@
 body {
+  text-align: center;
   font: 14px "Century Gothic", Futura, sans-serif;
   margin: 20px;
   background-color: rgb(34, 34, 34);
@@ -6,9 +7,9 @@ body {
 }
 
 .error {
-  color: red
+  color: rgb(255, 75, 75)
 }
 
 a {
-  color: hotpink
+  color: rgb(102, 151, 255)
 }

@@ -71,8 +71,7 @@ class UrlForm extends React.Component {
       value: "",
       isLoaded: false,
       shortUrl: "",
-      error: null,
-      errorMsg: null
+      errorMsg: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -89,7 +88,6 @@ class UrlForm extends React.Component {
     this.setState({
       isLoaded: false,
       shortUrl: "",
-      error: null,
       errorMsg: ""
     });
 
@@ -122,8 +120,7 @@ class UrlForm extends React.Component {
           console.log(error)
           this.setState({
             isLoaded: true,
-            error: error,
-            errorMsg: error
+            errorMsg: "Something went wrong, is the backend server running?"
           });
         })
       .catch(error => console.log(error))
@@ -146,7 +143,7 @@ class UrlForm extends React.Component {
         </form>
 
         <br />
-        {isLoaded && !error && <div>
+        {isLoaded && !errorMsg && <div>
           <label>Your short URL: </label>
           <a target="_blank" href={CLIENT_DOMAIN_NAME + shortUrl}>{CLIENT_DOMAIN_NAME + shortUrl}</a>
         </div>}
