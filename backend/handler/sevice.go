@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/ongaaron96/url-shortener/backend/util"
 )
@@ -30,15 +31,19 @@ func Start() {
 		shortUrl, err := urlConverter.longToShort(url)
 
 		errorMsg := ""
+		status := http.StatusOK
 		response := make(map[string]string)
 		if err != nil {
 			log.Printf("error converting long to short url, err: %v", err)
 			errorMsg = err.Error() // TODO: better error messages
+			status = http.StatusInternalServerError
 		}
 
 		response["errorMsg"] = errorMsg
 		response["shortUrl"] = shortUrl
+		rw.WriteHeader(status)
 		json.NewEncoder(rw).Encode(response)
+		log.Printf("responded long to short url, longUrl: %s, shortUrl: %s, errorMsg: %s", url, shortUrl, errorMsg)
 	})
 
 	// Convert short to long
@@ -47,17 +52,25 @@ func Start() {
 		longUrl, err := urlConverter.shortToLong(url)
 
 		errorMsg := ""
+		status := http.StatusOK
 		response := make(map[string]string)
 		if err != nil {
 			log.Printf("error converting short to long url, err: %v", err)
 			errorMsg = err.Error() // TODO: better error messages
+			status = http.StatusInternalServerError
 		}
 
 		response["errorMsg"] = errorMsg
 		response["longUrl"] = longUrl
+		rw.WriteHeader(status)
 		json.NewEncoder(rw).Encode(response)
+		log.Printf("responded short to long url, shortUrl: %s, longUrl: %s, errorMsg: %s", url, longUrl, errorMsg)
 	})
 
+	originsOk := handlers.AllowedOrigins([]string{"http://localhost:3000"})
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Origin", "Accept"})
+	methodsOk := handlers.AllowedMethods([]string{"GET"})
+
 	log.Println("server running successfully!")
-	fmt.Println(http.ListenAndServe(":8081", router))
+	fmt.Println(http.ListenAndServe(":8081", handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }

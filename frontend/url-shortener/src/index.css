@@ -1,0 +1,14 @@
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+  background-color: rgb(34, 34, 34);
+  color: #fff;
+}
+
+.error {
+  color: red
+}
+
+a {
+  color: hotpink
+}
